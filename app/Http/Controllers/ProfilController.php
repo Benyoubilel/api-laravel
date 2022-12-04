@@ -16,6 +16,12 @@ class ProfilController extends Controller
     // On retourne les informations des utilisateurs en JSON
     return response()->json($users);
 }
+public function show($id)
+{
+    $user = profil::find($id);
+    return response()->json($user, 200);
+
+}
 public function store(Request $request)
 {
     // La validation de données
@@ -31,13 +37,14 @@ public function store(Request $request)
         'prenom' => $request->prenom,
         
     ]);
-
+    
+    
     // On retourne les informations du nouvel utilisateur en JSON
     return response()->json($user, 201);
 }
-public function update(Request $request, Profil $user)
+public function update(Request $request, profil $user)
 {
-    // La validation de données
+    //La validation de données
     $this->validate($request, [
         'nom' => 'required',
         'prenom' => 'required',
@@ -45,9 +52,10 @@ public function update(Request $request, Profil $user)
     ]);
 
     // On modifie les informations de l'utilisateur
+
     $user->update([
-        'nom' => 'required',
-        'prenom' => 'required',
+        'nom' => $request->nom,
+        'prenom' => $request->prenom,
     ]);
 
     // On retourne la réponse JSON
